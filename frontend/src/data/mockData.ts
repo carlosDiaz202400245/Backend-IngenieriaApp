@@ -6,7 +6,7 @@ export const mockUsers: User[] = [
     academicId: '2024001',
     firstName: 'María',
     lastName: 'García',
-    email: 'maria.garcia@Ing.nieria.usac.edu.gt',
+    email: 'maria.garcia@Ingenieria.usac.edu.gt',
     password: '123456',
     createdAt: new Date('2025-01-15')
   },
@@ -15,7 +15,7 @@ export const mockUsers: User[] = [
     academicId: '2024002',
     firstName: 'Carlos',
     lastName: 'López',
-    email: 'carlos.lopez@Ing.nieria.usac.edu.gt',
+    email: 'carlos.lopez@Ingenieria.usac.edu.gt',
     password: '123456',
     createdAt: new Date('2025-01-16')
   },
@@ -24,7 +24,7 @@ export const mockUsers: User[] = [
     academicId: '2024003',
     firstName: 'Ana',
     lastName: 'Rodríguez',
-    email: 'ana.rodriguez@Ing.nieria.usac.edu.gt',
+    email: 'ana.rodriguez@Ingenieria.usac.edu.gt',
     password: '123456',
     createdAt: new Date('2025-01-17')
   }

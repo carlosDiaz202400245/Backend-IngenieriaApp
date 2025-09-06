@@ -13,7 +13,7 @@ export function LoginForm({ onSwitchToRegister, onForgotPassword }: LoginFormPro
   const [error, setError] = useState('');
   const { login } = useAuth();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
 
@@ -22,9 +22,13 @@ export function LoginForm({ onSwitchToRegister, onForgotPassword }: LoginFormPro
       return;
     }
 
-    const success = login(academicId, password);
-    if (!success) {
-      setError('Registro académico o contraseña incorrectos');
+    try {
+      const success = await login(academicId, password);
+      if (!success) {
+        setError('Registro académico o contraseña incorrectos');
+      }
+    } catch (error) {
+      setError('Error al intentar iniciar sesión');
     }
   };
 

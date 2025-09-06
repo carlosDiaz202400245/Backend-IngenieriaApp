@@ -26,11 +26,10 @@ export function RegisterForm({ onSwitchToLogin }: RegisterFormProps) {
     }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
 
-    // Validation
     if (Object.values(formData).some(value => !value.trim())) {
       setError('Por favor, complete todos los campos');
       return;
@@ -52,18 +51,22 @@ export function RegisterForm({ onSwitchToLogin }: RegisterFormProps) {
       return;
     }
 
-    const success = register({
-      academicId: formData.academicId,
-      firstName: formData.firstName,
-      lastName: formData.lastName,
-      email: formData.email,
-      password: formData.password
-    });
+    try {
+      const result = await register({
+        academicId: formData.academicId,
+        firstName: formData.firstName,
+        lastName: formData.lastName,
+        email: formData.email,
+        password: formData.password
+      });
 
-    if (!success) {
-      setError('El registro académico o correo electrónico ya está en uso');
-    } else {
-      setSuccess(true);
+      if (result.success) {
+        setSuccess(true);
+      } else {
+        setError(result.error || 'Error al registrar usuario');
+      }
+    } catch (error) {
+      setError('Ocurrió un error durante el registro');
     }
   };
 
