@@ -1,0 +1,180 @@
+CREATE DATABASE IF NOT EXISTS foro_ingenieria_db;
+USE foro_ingenieria_db;
+
+CREATE TABLE IF NOT EXISTS usuario (
+    registro_academico INT PRIMARY KEY,
+    nombres VARCHAR(255),
+    apellidos VARCHAR(255),
+    correo VARCHAR(255) UNIQUE,
+    password VARCHAR(255)
+);
+
+CREATE TABLE IF NOT EXISTS curso (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    nombre VARCHAR(255),
+    seccion VARCHAR(50),
+    creditos INT
+);
+
+CREATE TABLE IF NOT EXISTS cursos_aprobados (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    usuario_id INT,
+    curso_id INT,
+    FOREIGN KEY (usuario_id) REFERENCES usuario(registro_academico) ON DELETE CASCADE,
+    FOREIGN KEY (curso_id) REFERENCES curso(id) ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS profesor (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    nombres VARCHAR(255),
+    apellidos VARCHAR(255),
+    cursos INT,
+    FOREIGN KEY (cursos) REFERENCES curso(id) ON DELETE SET NULL
+);
+
+CREATE TABLE IF NOT EXISTS publicacion (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    usuario_id INT,
+    cat_o_curso INT,
+    mensaje VARCHAR(1000),
+    fecha TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (usuario_id) REFERENCES usuario(registro_academico) ON DELETE CASCADE,
+    FOREIGN KEY (cat_o_curso) REFERENCES profesor(id) ON DELETE SET NULL
+);
+
+CREATE TABLE IF NOT EXISTS comentario (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    mensaje VARCHAR(1000),
+    usuario_id INT,
+    id_publicacion INT,
+    FOREIGN KEY (usuario_id) REFERENCES usuario(registro_academico) ON DELETE CASCADE,
+    FOREIGN KEY (id_publicacion) REFERENCES publicacion(id) ON DELETE CASCADE
+);
+
+INSERT INTO usuario (registro_academico, nombres, apellidos, correo, password) VALUES
+(202400999, 'Alberto Moisés Gerardo', 'Lémus Alvarado', 'moiseslemus155@gmail.com', '12345');
+
+INSERT INTO curso (nombre, seccion, creditos) VALUES 
+("Análisis y Diseño de Sistemas 1", "A", 9),
+("Análisis y Diseño de Sistemas 1", "B", 9),
+("Análisis y Diseño de Sistemas 2", "A", 9),
+("Análisis y Diseño de Sistemas 2", "B", 9),
+("Arquitectura de Computadoras y Ensambladores 1", "A", 8),
+("Arquitectura de Computadoras y Ensambladores 1", "B", 8),
+("Arquitectura de Computadoras y Ensambladores 2", "A", 8),
+("Arquitectura de Computadoras y Ensambladores 2", "B", 8),
+("Bases de Datos 1", "B", 7),
+("Bases de Datos 1", "N", 7),
+("Bases de Datos 2", "A", 7),
+("Bases de Datos 2", "B", 7),
+("Economía", "A+", 9),
+("Economía", "A-", 9),
+("Estructura de Datos", "A", 9),
+("Estructura de Datos", "B", 9),
+("Estructura de Datos", "C", 9),
+("Gerenciales 2", "N", 7),
+("Gerenciales 2", "P", 7),
+("Inteligencia Artificial 1", "A", 8),
+("Introducción a la Programación y Computación 1", "A", 9),
+("Introducción a la Programación y Computación 1", "B", 9),
+("Introducción a la Programación y Computación 1", "C", 9),
+("Introducción a la Programación y Computación 1", "D", 9),
+("Introducción a la Programación y Computación 1", "E", 9),
+("Introducción a la Programación y Computación 1", "F", 9),
+("Introducción a la Programación y Computación 1", "G", 9),
+("Introducción a la Programación y Computación 2", "A", 8),
+("Introducción a la Programación y Computación 2", "B", 10),
+("Introducción a la Programación y Computación 2", "C", 10),
+("Introducción a la Programación y Computación 2", "D", 10),
+("Introducción a la Programación y Computación 2", "N", 10),
+("Introducción a la Programación y Computación 2", "P", 10),
+("Lenguajes Formales y de Programación", "A+", 8),
+("Lenguajes Formales y de Programación", "A-", 8),
+("Lenguajes Formales y de Programación", "B+", 8),
+("Lenguajes Formales y de Programación", "B-", 8),
+("Logica de Sistemas", "A", 8),
+("Logica de Sistemas", "B", 8),
+("Logica de Sistemas", "C", 8),
+("Manejo e Implementacion de Archivos", "A", 10),
+("Manejo e Implementación de Archivos", "B", 8),
+("Manejo e Implementación de Archivos", "C", 9),
+("Manejo e Implementacion de Archivos", "D", 10),
+("Modelación y Simulación 1", "A", 8),
+("Modelación y Simulación 2", "A", 9),
+("Modelación y Simulación 2", "B", 7),
+("Organización Computacional", "A", 9),
+("Organización Computacional", "B", 8),
+("Organización Computacional", "C", 7),
+("Organización de Lenguajes y Compiladores 2", "A", 8),
+("Organización de Lenguajes y Compiladores 2", "N", 9),
+("Organización de Lenguajes y Compiladores 2", "B", 8),
+("Organización Lenguajes y Compiladores 1", "B", 7),
+("Organización Lenguajes y Compiladores 1", "C", 8),
+("Organización Lenguajes y Compiladores 1", "N", 9),
+("Programación Comercial 1", "A", 7),
+("Programación Comercial 1", "N", 7),
+("Programación Comercial 1", "P", 7),
+("Programación Comercial 1", "Q", 8),
+("Programación de Computadoras 1", "A", 9);
+
+INSERT INTO profesor (nombres, apellidos, cursos) VALUES 
+("William Samuel", "Guevara Orellana", 1),
+("Edgar Francisco", "Rodas Robledo", 2),
+("Claudia Liceth", "Rojas Morales", 3),
+("Mirna Ivonne", "Aldana Larrazabal", 4),
+("Otto Rene", "Escobar Leiva", 5),
+("Otto Rene", "Escobar Leiva", 6),
+("Gabriel Alejandro", "Díaz López", 7),
+("Jurgen Andoni", "Ramirez Ramirez", 8),
+("Luis Fernando", "Espino Barrios", 9),
+("Alvaro Giovanni", "Longo Morales", 10),
+("Otto Amilcar", "Rodriguez Acosta", 11),
+("Luis Alberto", "Arias", 12),
+("Ileana Guisela", "Ralda Recinos", 13),
+("Evelyn Carolina", "Morales Ruiz", 14),
+("Edgar Rene", "Ornelis Hoil", 15),
+("Alvaro Obryan", "Hernandez Garcia", 16),
+("Luis Fernando", "Espino Barrios", 17),
+("José Luis", "Reynoso Tiu", 18),
+("Luis Alberto", "Vettorazzi Espana", 19),
+("Luis Fernando", "Espino Barrios", 20),
+("Marlon Francisco", "ORELLANA LOPEZ", 21),
+("William Estuardo", "ESCOBAR ARGUETA", 22),
+("Sebastian Alejandro", "VELÁSQUEZ BONILLA", 23),
+("Moises Eduardo", "VELASQUEZ OLIVA", 24),
+("Juan Francisco", "URBINA SILVA", 25),
+("Herman Igor", "VELIZ LINARES", 26),
+("Lesther Kevin Federico", "LÓPEZ MICULAX", 27),
+("Neftali de Jesus", "CALDERON MENDEZ", 28),
+("Douglas Alexander", "SOCH CATALÁN", 29),
+("William Estuardo", "ESCOBAR ARGUETA", 30),
+("Zenaida Irazema", "CHACÓN GARCÍA", 31),
+("Edgar Francisco", "RODAS ROBLEDO", 32),
+("Max Rodrigo", "DURÁN CANTEO", 33),
+("Marlon Antonio", "PÉREZ TÜRK", 34),
+("Angely Naomi", "MARROQUÍN TAPAZ", 35),
+("Claudia Liceth", "ROJAS MORALES", 36),
+("Dayana Alejandra", "REYES RODRÍGUEZ", 37),
+("José Manuel", "RUIZ JUÁREZ", 38),
+("Hesban Amilcar", "ARGUETA AGUILAR", 39),
+("Stanly", "BARRIOS", 40),
+("Piter Angel Esaú", "VALIENTE DE LEÓN", 41),
+("Edwin Estuardo", "ZAPETA GÓMEZ", 42),
+("Pedro Luis", "PU TAVICO", 43),
+("Fernando José", "PAZ GONZÁLEZ", 44),
+("Angel Miguel", "GARCÍA URIZAR", 45),
+("Otto Amilcar", "RODRIGUEZ ACOSTA", 46),
+("Danny Hugo Bryan", "TEJAXÚN PICHYAYÁ", 47),
+("Damaris", "CAMPOS DE LÓPEZ", 48),
+("Luisa María", "ORTÍZ ROMERO", 49),
+("David Estuardo", "MORALES", 50),
+("Herberth Abisai", "ÁVILA RUIZ", 51),
+("Zulma Karina", "AGUIRRE ORDÓÑEZ", 52),
+("Jonatan Leonel", "GARCÍA ARANA", 53),
+("Virginia Victoria", "TALA AYERDI", 54),
+("Gerson Oswaldo", "RUÍZ RAMÍREZ", 55),
+("Floriza Felipa", "ÁVILA PESQUERA DE MEDINILLA", 56),
+("Kevin Estuardo", "PALACIOS QUIÑONEZ", 57),
+("Floriza Felipa", "ÁVILA PESQUERA DE MEDINILLA", 58),
+("Jonatan René", "GONZÁLEZ HERNÁNDEZ", 59),
+("Juan Alvaro", "DIAZ ARDAVIN", 60);
