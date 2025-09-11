@@ -2,13 +2,16 @@ import React, { createContext, useContext, useState, ReactNode } from 'react';
 import { Publication, Comment, ApprovedCourse, Course } from '../types';
 import { mockPublications, mockApprovedCourses, mockCourses } from '../data/mockData';
 import { useAuth } from './AuthContext';
+import axios from "axios";
 
 interface DataContextType {
   publications: Publication[];
   courses: Course[];
   approvedCourses: ApprovedCourse[];
+  currentUser: any; //
   createPublication: (courseOrProfessor: string, message: string) => void;
   addComment: (publicationId: string, message: string) => void;
+  deleteComment: (publicationId: string, commentId: string) => void; // 
   addApprovedCourse: (courseId: string) => void;
   removeApprovedCourse: (courseId: string) => void;
   getTotalCredits: (userId: string) => number;
@@ -22,6 +25,22 @@ export function DataProvider({ children }: { children: ReactNode }) {
   const [approvedCourses, setApprovedCourses] = useState<ApprovedCourse[]>(mockApprovedCourses);
   const [courses] = useState<Course[]>(mockCourses);
   const { currentUser } = useAuth();
+  //función para eliminar comentario:
+  const deleteComment = (publicationId: string, commentId: string) => {
+  if (!currentUser) return;
+
+  setPublications(publications.map(pub =>
+    pub.id === publicationId
+      ? { 
+          ...pub, 
+          comments: pub.comments.filter(c => 
+            !(c.id === commentId && c.userId === currentUser.id) // solo borra si el comentario es del usuario actual
+          )
+        }
+      : pub
+  ));
+};
+  //fin
 
   const createPublication = (courseOrProfessor: string, message: string) => {
     if (!currentUser) return;
@@ -104,8 +123,10 @@ export function DataProvider({ children }: { children: ReactNode }) {
       publications,
       courses,
       approvedCourses,
+      currentUser,
       createPublication,
       addComment,
+      deleteComment,
       addApprovedCourse,
       removeApprovedCourse,
       getTotalCredits,
