@@ -27,19 +27,19 @@ export function DataProvider({ children }: { children: ReactNode }) {
   const { currentUser } = useAuth();
   //función para eliminar comentario:
   const deleteComment = (publicationId: string, commentId: string) => {
-  if (!currentUser) return;
+    if (!currentUser) return;
 
-  setPublications(publications.map(pub =>
-    pub.id === publicationId
-      ? { 
-          ...pub, 
-          comments: pub.comments.filter(c => 
+    setPublications(publications.map(pub =>
+      pub.id === publicationId
+        ? {
+          ...pub,
+          comments: pub.comments.filter(c =>
             !(c.id === commentId && c.userId === currentUser.id) // solo borra si el comentario es del usuario actual
           )
         }
-      : pub
-  ));
-};
+        : pub
+    ));
+  };
   //fin
 
   const createPublication = (courseOrProfessor: string, message: string) => {
@@ -70,8 +70,8 @@ export function DataProvider({ children }: { children: ReactNode }) {
       createdAt: new Date()
     };
 
-    setPublications(publications.map(pub => 
-      pub.id === publicationId 
+    setPublications(publications.map(pub =>
+      pub.id === publicationId
         ? { ...pub, comments: [...pub.comments, newComment] }
         : pub
     ));
@@ -84,7 +84,7 @@ export function DataProvider({ children }: { children: ReactNode }) {
     if (!course) return;
 
     // Check if already approved
-    const alreadyApproved = approvedCourses.some(ac => 
+    const alreadyApproved = approvedCourses.some(ac =>
       ac.userId === currentUser.id && ac.courseId === courseId
     );
     if (alreadyApproved) return;
@@ -103,7 +103,7 @@ export function DataProvider({ children }: { children: ReactNode }) {
   const removeApprovedCourse = (courseId: string) => {
     if (!currentUser) return;
 
-    setApprovedCourses(approvedCourses.filter(ac => 
+    setApprovedCourses(approvedCourses.filter(ac =>
       !(ac.userId === currentUser.id && ac.courseId === courseId)
     ));
   };

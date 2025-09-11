@@ -6,7 +6,7 @@ const dbConection = async () => {
             host: 'localhost',
             database: 'foro_ingenieria_db',
             user: 'root',
-            password: '4DMIN'
+            password: 'admin'
         });
 
         console.log('Conexión exitosa a la base de datos');
@@ -17,4 +17,4 @@ const dbConection = async () => {
     }
 };
 
-module.exports = { dbConection};
+module.exports = { dbConection };
